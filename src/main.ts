@@ -9,8 +9,14 @@ import "./style.css";
  * Base
  */
 // Debug
+const debugObject = {
+  clearColor: "#201919",
+};
 const gui = new GUI({
   width: 400,
+});
+gui.addColor(debugObject, "clearColor").onChange(() => {
+  renderer.setClearColor(debugObject.clearColor);
 });
 
 // Canvas
@@ -132,7 +138,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
+renderer.setClearColor(debugObject.clearColor);
 /**
  * Animate
  */
