@@ -60,11 +60,10 @@ const portalMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
  */
 gltfLoader.load("/portal.glb", (gltf) => {
   const model = gltf.scene;
-  model.traverse((child) => {
-    if (child instanceof THREE.Mesh) {
-      child.material = bakedMaterial;
-    }
-  });
+  const baked = model.getObjectByName("baked");
+  if (baked instanceof THREE.Mesh) {
+    baked.material = bakedMaterial;
+  }
   const poleLight = model.getObjectByName("poleLightA");
   if (poleLight instanceof THREE.Mesh) {
     poleLight.material = poleLightMaterial;
