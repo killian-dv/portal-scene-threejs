@@ -37,14 +37,22 @@ const gltfLoader = new GLTFLoader();
 gltfLoader.setDRACOLoader(dracoLoader);
 
 /**
- * Object
+ * Materials
  */
-const cube = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial(),
-);
+const bakedMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
-scene.add(cube);
+/**
+ * Model
+ */
+gltfLoader.load("/portal.glb", (gltf) => {
+  const model = gltf.scene;
+  model.traverse((child) => {
+    if (child instanceof THREE.Mesh) {
+      child.material = bakedMaterial;
+    }
+  });
+  scene.add(model);
+});
 
 /**
  * Sizes
