@@ -15,12 +15,20 @@ import "./style.css";
 // Debug
 const debugObject = {
   clearColor: "#201919",
+  portalColorStart: "#000000",
+  portalColorEnd: "#ffffff",
 };
 const gui = new GUI({
   width: 400,
 });
 gui.addColor(debugObject, "clearColor").onChange(() => {
   renderer.setClearColor(debugObject.clearColor);
+});
+gui.addColor(debugObject, "portalColorStart").onChange(() => {
+  portalMaterial.uniforms.uColorStart.value.set(debugObject.portalColorStart);
+});
+gui.addColor(debugObject, "portalColorEnd").onChange(() => {
+  portalMaterial.uniforms.uColorEnd.value.set(debugObject.portalColorEnd);
 });
 
 // Canvas
@@ -66,6 +74,10 @@ const poleLightMaterial = new THREE.MeshBasicMaterial({ color: 0xffffe5 });
 const portalMaterial = new THREE.ShaderMaterial({
   uniforms: {
     uTime: new THREE.Uniform(0),
+    uColorStart: new THREE.Uniform(
+      new THREE.Color(debugObject.portalColorStart),
+    ),
+    uColorEnd: new THREE.Uniform(new THREE.Color(debugObject.portalColorEnd)),
   },
   vertexShader: portalVertexShader,
   fragmentShader: portalFragmentShader,

@@ -1,5 +1,7 @@
 varying vec2 vUv;
 uniform float uTime;
+uniform vec3 uColorStart;
+uniform vec3 uColorEnd;
 
 #include ../includes/perlin-3D-noise.glsl;
 
@@ -13,6 +15,11 @@ void main() {
   // combine the strength and outer glow
   strength += outerGlow;
   strength += step(- 0.2, strength) * 0.8;
-  gl_FragColor = vec4(vec3(strength), 1.0);
+
+  // clamp the strength
+  strength = clamp(strength, 0.0, 1.0);
+
+  vec3 color = mix(uColorStart, uColorEnd, strength);
+  gl_FragColor = vec4(color, 1.0);
   #include <colorspace_fragment>
 }
